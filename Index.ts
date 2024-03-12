@@ -81,7 +81,7 @@ class Biblioteca {
 
     listaGenero(): void{
         if (this.genero === GeneroLivro.ROMANCE) {
-            console.log(`Livros de romance: ${this.genero === GeneroLivro.ROMANCE}`)
+            console.log(`Livros de romance: ${this.livros}`)
         }else if(this.genero === GeneroLivro.TERROR){
             console.log(`Livros de terror: ${this.genero === GeneroLivro.TERROR}`)
         }else if(this.genero === GeneroLivro.SUSPENSE){
@@ -110,8 +110,14 @@ const usuario3 = new Usuario('Arthur Henrique', 27, 12770688880, 66);
 const usuario4 = new Usuario('Gaia Silveira', 4, 33875688082, 40);
 const usuario5 = new Usuario('Rosangela Vianna', 24, 43875688082, 1000);
 
+novaBiblioteca.livrosDisponiveis()
+novaBiblioteca.listaAtrasados()
+novaBiblioteca.listaEmprestados()
+
+
 function menu() {
-    console.clear()
+    // console.clear()
+
     
     console.log('1: Livro Disponível ');
     console.log('2: Livro Emprestado ');
@@ -123,85 +129,85 @@ function menu() {
     console.log('8: Ver Multa ');
     console.log('9: Ver Livros por Gênero ');
     console.log('10: Encerrar sessão');
+    
+    let opcao = rl.questionInt('Digite uma opção: ')
+    switch (opcao) {
+
+        case 1:
+            console.clear()
+            console.log(novaBiblioteca.livrosDisponiveis()); 
+            break;
+    
+    
+        case 2:
+            console.clear()
+            console.log(novaBiblioteca.listaEmprestados())
+            break;
+    
+        case 3:
+            console.clear()
+            console.log(novaBiblioteca.listaAtrasados())
+            break;
+    
+        case 4:
+            console.clear()
+    
+            const nome = rl.question('Digite o nome do usuário: ')
+            const id = rl.questionInt('Digite o ID do usuário: ')
+            const contato = rl.questionInt('Digite o contato do usuário: ')
+            let newUser = new Usuario(nome, id, contato, 0)
+    
+            novaBiblioteca.cadastroUsuario(newUser)
+            break;
+    
+        case 5:
+            console.clear()
+    
+            const idUsuário = rl.questionInt('Digite o ID do usuário: ')
+            novaBiblioteca.historicoEmprestimo(idUsuário)
+            break;
+    
+        case 6:
+            console.clear()
+    
+            const livros = rl.question('Digite o nome do livro: ')
+            const usuario = rl.question("Digite o nome do usuário: ")
+            novaBiblioteca.emprestimoLivro(livros, usuario)
+            break;        
+    
+        case 7:
+            console.clear()
+    
+            const nomeLivro = rl.question('Digite o nome do livro: ')
+            const nomeUsuario = rl.question("Digite o nome do usuário: ")
+            novaBiblioteca.reserva(nomeLivro, nomeUsuario)
+            break;
+    
+        case 8:
+            console.clear()
+    
+            const atraso = rl.questionInt('Quantos está atrasado a entrega: ')
+            novaBiblioteca.verMulta(atraso)
+            break;
+            
+        case 9:
+            console.clear()
+    
+            const generoLivro: string = rl.question('Digite o gênero que deseja procurar: ');
+            console.log(novaBiblioteca.listaGenero)
+            break;
+      
+        case 10:
+            while(false){
+            }
+            break;
+    
+        default:
+            console.log('Erro.')
+            break;
+    }
 }
-let opcao = rl.questionInt('Digite uma opção')
-
-switch (opcao) {
-
-    case 1:
-        console.clear()
-        console.log(novaBiblioteca.livrosDisponiveis()); 
-        break;
-
-
-    case 2:
-        console.clear()
-        console.log(novaBiblioteca.listaEmprestados())
-        break;
-
-    case 3:
-        console.clear()
-        console.log(novaBiblioteca.listaAtrasados())
-        break;
-
-    case 4:
-        console.clear()
-
-        const nome = rl.question('Digite o nome do usuário: ')
-        const id = rl.questionInt('Digite o ID do usuário: ')
-        const contato = rl.questionInt('Digite o contato do usuário: ')
-        let newUser = new Usuario(nome, id, contato, 0)
-
-        novaBiblioteca.cadastroUsuario(newUser)
-        break;
-
-    case 5:
-        console.clear()
-
-        const idUsuário = rl.questionInt('Digite o ID do usuário: ')
-        novaBiblioteca.historicoEmprestimo(idUsuário)
-        break;
-
-    case 6:
-        console.clear()
-
-        const livros = rl.question('Digite o nome do livro: ')
-        const usuario = rl.question("Digite o nome do usuário: ")
-        novaBiblioteca.emprestimoLivro(livros, usuario)
-        break;        
-        
-
-    case 7:
-        console.clear()
-
-        const nomeLivro = rl.question('Digite o nome do livro: ')
-        const nomeUsuario = rl.question("Digite o nome do usuário: ")
-        novaBiblioteca.reserva(nomeLivro, nomeUsuario)
-        break;
-
-    case 8:
-        console.clear()
-
-        const atraso = rl.questionInt('Quantos está atrasado a entrega: ')
-        novaBiblioteca.verMulta(atraso)
-        break;
-        
-    case 9:
-        console.clear()
-
-        const generoLivro: string = rl.question('Digite o gênero que deseja procurar: ');
-        console.log(novaBiblioteca.listaGenero)
-        break;
-  
-    case 10:
-        while(false)
-        break;
-
-    default:
-        console.log('Erro.')
-        break;
-}
-
 while (true) {
 menu()
 }
+
