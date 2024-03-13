@@ -39,7 +39,7 @@ class Biblioteca {
         }
     }
 
-    cadastroUsuario(usuarios): void{
+    cadastroUsuario(usuarios:Usuario): void{
             this.usuarios.push(usuarios)
     }
     
@@ -52,10 +52,10 @@ class Biblioteca {
 
     emprestimoLivro(livros: Livro, usuario: Usuario): void {
         if (livros.statusLivro === StatusLivro.DISPONIVEL) {
-            livros.statusLivro = StatusLivro.EMPRESTADO;
 
             usuario.historicoEmprestimo.push(livros);
             console.log(`${livros.nomeLivro} emprestado.`)
+            livros.statusLivro = StatusLivro.EMPRESTADO;
         } else {
             console.log(`Livro indisponível`)
         }
@@ -72,10 +72,17 @@ class Biblioteca {
         }
     }
 
-    verMulta(diasAtrasados: number):void {
+    verMulta(diasAtrasados: number, idUsuario: number):void {
         const valorMulta: number = 10
         const valorTotal: number = diasAtrasados * valorMulta
-        console.log(`dias atrasados: ${diasAtrasados}, valor total da multa: R$${valorTotal}.`)
+        idUsuario = rl.questionInt("Digite seu id: ")
+        if(idUsuario === idUsuario && StatusLivro.ATRASADO){
+            console.log(`dias atrasados: ${diasAtrasados}, valor total da multa: R$${valorTotal}.`)
+        }else if(idUsuario === idUsuario && StatusLivro.EMPRESTADO && StatusLivro.RESERVADO && StatusLivro.DISPONIVEL){
+            console.log(`O usuário ${idUsuario} não está com multa.`)
+        }else{
+            console.log("Erro.")
+        }
 
     }
 
@@ -163,8 +170,8 @@ function menu() {
         case 5:
             console.clear()
     
-            const idUsuário = rl.questionInt('Digite o ID do usuário: ')
-            novaBiblioteca.historicoEmprestimo(idUsuário)
+            const idUsuario = rl.questionInt('Digite o ID do usuário: ')
+            novaBiblioteca.historicoEmprestimo(idUsuario)
             break;
     
         case 6:
@@ -187,7 +194,7 @@ function menu() {
             console.clear()
     
             const atraso = rl.questionInt('Quantos está atrasado a entrega: ')
-            novaBiblioteca.verMulta(atraso)
+            novaBiblioteca.verMulta(atraso, idUsuario)
             break;
             
         case 9:
@@ -207,7 +214,7 @@ function menu() {
             break;
     }
 }
+
 while (true) {
 menu()
-}
-
+} 
